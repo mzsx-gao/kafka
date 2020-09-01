@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Properties;
 
 /**
-
  * 类说明：手动提交当偏移量，生产者使用同步提交模式
  */
 public class CommitSync {
@@ -23,18 +22,15 @@ public class CommitSync {
         Properties properties = KafkaConst.consumerConfig("CommitSync",
                 StringDeserializer.class,
                 StringDeserializer.class);
-        //TODO 取消自动提交
+        // 取消自动提交
         /*取消自动提交*/
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,false);
 
-        KafkaConsumer<String,String> consumer
-                = new KafkaConsumer<String, String>(properties);
+        KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
         try {
-            consumer.subscribe(Collections.singletonList(
-                    BusiConst.CONSUMER_COMMIT_TOPIC));
+            consumer.subscribe(Collections.singletonList(BusiConst.CONSUMER_COMMIT_TOPIC));
             while(true){
-                ConsumerRecords<String, String> records
-                        = consumer.poll(Duration.ofMillis(500));
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
                 for(ConsumerRecord<String, String> record:records){ //100个 100~ 200
                     System.out.println(String.format(
                             "主题：%s，分区：%d，偏移量：%d，key：%s，value：%s",
@@ -46,7 +42,7 @@ public class CommitSync {
                 //开始事务
                 //读业务写数据库-
                 //偏移量写入数据库
-                //TODO 同步提交（这个方法会阻塞）
+                // 同步提交（这个方法会阻塞）
                 consumer.commitSync(); //offset =200  max
 
                 consumer.commitSync(); //offset =200  max

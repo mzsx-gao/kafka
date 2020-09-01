@@ -22,7 +22,7 @@ public class SyncAndAsync {
         Properties properties = KafkaConst.consumerConfig("SyncAndAsync",
                 StringDeserializer.class,
                 StringDeserializer.class);
-        //TODO 取消自动提交
+        // 取消自动提交
         /*取消自动提交*/
         properties.put("enable.auto.commit",false);
 
@@ -41,7 +41,7 @@ public class SyncAndAsync {
                             record.key(),record.value()));
                     //do our work
                 }
-                //TODO 异步提交
+                // 异步提交
                 consumer.commitAsync();
             }
         } catch (CommitFailedException e) {
@@ -49,7 +49,7 @@ public class SyncAndAsync {
             e.printStackTrace();
         } finally {
             try {
-                //TODO 为了万不一失，需要同步提交下
+                // 为了万不一失，需要同步提交下
                 consumer.commitSync();
             } finally {
                 consumer.close();

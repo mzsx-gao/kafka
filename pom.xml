@@ -24,6 +24,12 @@
             <artifactId>kafka-clients</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <!--logback日志系统,该jar内部依赖logback-core(1.2.3)和slf4j-api(1.7.25)-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
     </dependencies>
 

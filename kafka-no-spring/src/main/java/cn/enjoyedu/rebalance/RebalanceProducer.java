@@ -14,54 +14,38 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
-
  * 类说明：多线程下使用生产者
  */
 public class RebalanceProducer {
 
     private static final int MSG_SIZE = 50;
-    private static ExecutorService executorService
-            = Executors.newFixedThreadPool(
-                    Runtime.getRuntime().availableProcessors());
-    private static CountDownLatch countDownLatch
-            = new CountDownLatch(MSG_SIZE);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private static CountDownLatch countDownLatch = new CountDownLatch(MSG_SIZE);
 
-    private static DemoUser makeUser(int id){
-        DemoUser demoUser = new DemoUser(id);
-        String userName = "xiangxue_"+id;
-        demoUser.setName(userName);
-        return demoUser;
-    }
+    private static class ProduceWorker implements Runnable {
 
-    private static class ProduceWorker implements Runnable{
+        private ProducerRecord<String, String> record;
+        private KafkaProducer<String, String> producer;
 
-        private ProducerRecord<String,String> record;
-        private KafkaProducer<String,String> producer;
-
-        public ProduceWorker(ProducerRecord<String, String> record,
-                             KafkaProducer<String, String> producer) {
+        public ProduceWorker(ProducerRecord<String, String> record, KafkaProducer<String, String> producer) {
             this.record = record;
             this.producer = producer;
         }
 
         public void run() {
-            final String id = Thread.currentThread().getId()
-                    +"-"+System.identityHashCode(producer);
+            final String id = Thread.currentThread().getId() + "-" + System.identityHashCode(producer);
             try {
                 producer.send(record, new Callback() {
-                    public void onCompletion(RecordMetadata metadata,
-                                             Exception exception) {
-                        if(null!=exception){
+                    public void onCompletion(RecordMetadata metadata, Exception exception) {
+                        if (null != exception) {
                             exception.printStackTrace();
                         }
-                        if(null!=metadata){
-                            System.out.println(id+"|"
-                                    +String.format("偏移量：%s,分区：%s",
-                                    metadata.offset(),metadata.partition()));
+                        if (null != metadata) {
+                            System.out.println(id + "|" + String.format("偏移量：%s,分区：%s", metadata.offset(), metadata.partition()));
                         }
                     }
                 });
-                System.out.println(id+":数据["+record+"]已发送。");
+                System.out.println(id + ":数据[" + record + "]已发送。");
                 countDownLatch.countDown();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -70,19 +54,15 @@ public class RebalanceProducer {
     }
 
     public static void main(String[] args) {
-        KafkaProducer<String,String> producer
-                = new KafkaProducer<String, String>(
-                KafkaConst.producerConfig(StringSerializer.class,
-                        StringSerializer.class));
+        KafkaProducer<String, String> producer = new KafkaProducer<>(KafkaConst.producerConfig(StringSerializer.class, StringSerializer.class));
         try {
-            for(int i=0;i<MSG_SIZE;i++){
+            for (int i = 0; i < MSG_SIZE; i++) {
                 DemoUser demoUser = makeUser(i);
-                ProducerRecord<String,String> record
-                        = new ProducerRecord<String,String>(
-                        BusiConst.REBALANCE_TOPIC,null,
+                ProducerRecord<String, String> record = new ProducerRecord<>(
+                        BusiConst.REBALANCE_TOPIC, null,
                         System.currentTimeMillis(),
-                        demoUser.getId()+"", demoUser.toString());
-                executorService.submit(new ProduceWorker(record,producer));
+                        demoUser.getId() + "", demoUser.toString());
+                executorService.submit(new ProduceWorker(record, producer));
                 Thread.sleep(600);
             }
             countDownLatch.await();
@@ -94,7 +74,10 @@ public class RebalanceProducer {
         }
     }
 
-
-
-
+    private static DemoUser makeUser(int id) {
+        DemoUser demoUser = new DemoUser(id);
+        String userName = "csci_" + id;
+        demoUser.setName(userName);
+        return demoUser;
+    }
 }

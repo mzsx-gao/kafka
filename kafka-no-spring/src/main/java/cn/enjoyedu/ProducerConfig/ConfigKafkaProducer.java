@@ -37,7 +37,7 @@ public class ConfigKafkaProducer {
         try {
             ProducerRecord<String,String> record;
             try {
-                //TODO发送4条消息
+                //发送4条消息
                 for(int i=0;i<4;i++){
                     record = new ProducerRecord<>(BusiConst.HELLO_TOPIC, String.valueOf(i),"lison");
                     producer.send(record);

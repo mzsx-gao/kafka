@@ -24,7 +24,7 @@ public class SelfPartitionProducer {
         Properties properties
                 = KafkaConst.producerConfig(StringSerializer.class,
                 StringSerializer.class);
-        //TODO
+        //
         /*使用自定义的分区器*/
         properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "cn.enjoyedu.selfpartition.SelfPartitioner");
         producer = new KafkaProducer<String, String>(properties);

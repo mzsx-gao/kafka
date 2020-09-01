@@ -18,20 +18,20 @@ import java.util.Properties;
 public class Consumer {
 
     public static void main(String[] args) {
-        //TODO 消费者三个属性必须指定(broker地址清单、key和value的反序列化器)
+        // 消费者三个属性必须指定(broker地址清单、key和value的反序列化器)
         Properties properties = new Properties();
         properties.put("bootstrap.servers","127.0.0.1:9092");
         properties.put("key.deserializer", StringDeserializer.class);
         properties.put("value.deserializer", LongDeserializer.class);
 
-        //TODO 群组并非完全必须
+        // 群组并非完全必须
         properties.put(ConsumerConfig.GROUP_ID_CONFIG,"test1");
         KafkaConsumer<String,String> consumer = new KafkaConsumer<String, String>(properties);
         try {
-            //TODO 消费者订阅主题（可以多个）
+            // 消费者订阅主题（可以多个）
             consumer.subscribe(Collections.singletonList("phone_cout"));
             while(true){
-                //TODO 拉取（新版本）
+                // 拉取（新版本）
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
                 for(ConsumerRecord<String, String> record:records){
                     //提交偏移量(提交越频繁，性能越差)

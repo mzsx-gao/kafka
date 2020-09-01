@@ -23,7 +23,7 @@ import java.util.Properties;
  */
 public class StreamDeal {
     public static void main(String[] args) throws  Exception {
-        //TODO 流处理三个属性必须指定(broker地址清单、key和value的序列化器)
+        // 流处理三个属性必须指定(broker地址清单、key和value的序列化器)
         Properties properties = new Properties();
         properties.put("bootstrap.servers","127.0.0.1:9092");
         properties.put(StreamsConfig.APPLICATION_ID_CONFIG,"phone_count");

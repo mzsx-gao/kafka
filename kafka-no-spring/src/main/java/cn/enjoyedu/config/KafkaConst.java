@@ -51,7 +51,4 @@ public class KafkaConst {
         properties.put(ConsumerConfig.GROUP_ID_CONFIG,groupId);
         return properties;
     }
-
-
-
 }

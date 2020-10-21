@@ -17,12 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
  * 类说明：
  */
 @Configuration
 @EnableKafka
 public class KafkaConsumerConfig {
+
     @Value("${kafka.consumer.servers}")
     private String servers;
     @Value("${kafka.consumer.enable.auto.commit}")
@@ -56,19 +56,17 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public MyListener listener() {
-        return new MyListener();
-    }
-
-    @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>>
-    kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory
-                = new ConcurrentKafkaListenerContainerFactory<>();
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(concurrency);
         factory.getContainerProperties().setPollTimeout(1500);
         return factory;
+    }
+
+    @Bean
+    public MyListener listener() {
+        return new MyListener();
     }
 
 }

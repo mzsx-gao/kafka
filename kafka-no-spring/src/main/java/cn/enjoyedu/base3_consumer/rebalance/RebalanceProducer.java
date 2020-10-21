@@ -42,8 +42,7 @@ public class RebalanceProducer {
                         if (null != metadata) {
                             System.out.println(id + "|" + String.format("偏移量：%s,分区：%s", metadata.offset(), metadata.partition()));
                         }
-                    }
-                );
+                });
                 System.out.println(id + ":数据[" + record + "]已发送。");
                 countDownLatch.countDown();
             } catch (Exception e) {

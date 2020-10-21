@@ -18,8 +18,6 @@ public class ConsumerWorker implements Runnable {
     // 用来保存每个消费者当前读取分区的偏移量,解决分区再均衡的关键
     private final Map<TopicPartition, OffsetAndMetadata> currOffsets;
     private final boolean isStop;
-    // 事务类可以送入（tr）
-    //private final Transaction  tr  事务类的实例
 
     public ConsumerWorker(boolean isStop) {
         //消息消费者配置
@@ -38,21 +36,15 @@ public class ConsumerWorker implements Runnable {
         final String id = Thread.currentThread().getId() + "";
         int count = 0;
         TopicPartition topicPartition;
-        long offset;
         try {
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
-                //业务处理
-                //开始事务 tr.begin
                 for (ConsumerRecord<String, String> record : records) {
-                    System.out.println(id + "|" + String.format(
-                            "处理主题：%s，分区：%d，偏移量：%d，key：%s，value：%s",
-                            record.topic(), record.partition(),
-                            record.offset(), record.key(), record.value()));
+                    System.out.println("消费者"+ id + "|" + String.format("处理消息：主题：%s，分区：%d，偏移量：%d，key：%s，value：%s",
+                            record.topic(), record.partition(), record.offset(), record.key(), record.value()));
                     topicPartition = new TopicPartition(record.topic(), record.partition());
-                    offset = record.offset() + 1;
                     // 消费者消费时把偏移量提交到统一HashMap
-                    currOffsets.put(topicPartition, new OffsetAndMetadata(offset, "no"));
+                    currOffsets.put(topicPartition, new OffsetAndMetadata(record.offset() + 1, "no"));
                     count++;
                     //执行业务sql
                 }
@@ -62,9 +54,6 @@ public class ConsumerWorker implements Runnable {
                         HandlerRebalance.partitionOffsetMap.put(topicPartitionkey, currOffsets.get(topicPartitionkey).offset());
                     }
                 }
-                // 提交事务
-                //提交业务数和偏移量入库  tr.commit
-
                 // 如果stop参数为true,这个消费者消费到第5个时自动关闭
                 if (isStop && count >= 5) {
                     System.out.println(id + "-将关闭，当前偏移量为：" + currOffsets);

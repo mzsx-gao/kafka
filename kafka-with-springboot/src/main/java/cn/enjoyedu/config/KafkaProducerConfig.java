@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
- * 类说明：
+ * 生产者配置
  */
 @Configuration
 @EnableKafka
@@ -30,7 +29,6 @@ public class KafkaProducerConfig {
     private int linger;
     @Value("${kafka.producer.buffer.memory}")
     private int bufferMemory;
-
 
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
@@ -50,9 +48,7 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
-        KafkaTemplate kafkaTemplate
-                = new KafkaTemplate<String, String>(producerFactory()) ;
-        //kafkaTemplate.setProducerListener();
+        KafkaTemplate kafkaTemplate = new KafkaTemplate<>(producerFactory());
         return kafkaTemplate;
     }
 }

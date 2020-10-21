@@ -21,22 +21,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
-
  * 类说明：使用Kafka提供服务，实现（削峰填谷）流量整形
- *
  */
 @Component
 public class ConsumerService {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static ExecutorService executorService
-            = new ThreadPoolExecutor(2,2,
-            60,TimeUnit.SECONDS,new SynchronousQueue<>());
-    private static List<KafkaConsumer> consumers
-            = new ArrayList<KafkaConsumer>();
-    @Autowired
-    private DBService dbService;
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
+
     @Value("${kafka.consumer.servers}")
     private String servers;
     @Value("${kafka.consumer.enable.auto.commit}")
@@ -51,6 +40,15 @@ public class ConsumerService {
     private String autoOffsetReset;
     @Value("${kafka.consumer.concurrency}")
     private int concurrency;
+    @Autowired
+    private DBService dbService;
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static ExecutorService executorService = new ThreadPoolExecutor(2,2, 60,TimeUnit.SECONDS,new SynchronousQueue<>());
+    private static List<KafkaConsumer> consumers = new ArrayList<>();
+
 
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> propsMap = new HashMap<>();
@@ -73,9 +71,7 @@ public class ConsumerService {
         private DBService dbService;
         private KafkaTemplate kafkaTemplate;
 
-        public ConsumerWorker(KafkaConsumer<String, String> consumer,
-                              DBService dbService,
-                              KafkaTemplate kafkaTemplate) {
+        public ConsumerWorker(KafkaConsumer<String, String> consumer, DBService dbService, KafkaTemplate kafkaTemplate) {
             this.consumer = consumer;
             this.dbService = dbService;
             this.kafkaTemplate = kafkaTemplate;
@@ -84,18 +80,13 @@ public class ConsumerService {
         }
 
         public void run() {
-            final String id = Thread.currentThread().getId()
-                    +"-"+System.identityHashCode(consumer);
+            final String id = Thread.currentThread().getId() +"-"+System.identityHashCode(consumer);
             try {
                 while(true){
-                    ConsumerRecords<String, String> records
-                            = consumer.poll(100);
+                    ConsumerRecords<String, String> records = consumer.poll(100);
                     for(ConsumerRecord<String, String> record:records){
-                        System.out.println(id+"|"+String.format(
-                                "主题：%s，分区：%d，偏移量：%d，" +
-                                        "key：%s，value：%s",
-                                record.topic(),record.partition(),
-                                record.offset(),record.key(),record.value()));
+                        System.out.println(id+"|"+String.format("主题：%s，分区：%d，偏移量：%d，" + "key：%s，value：%s",
+                                record.topic(),record.partition(), record.offset(),record.key(),record.value()));
                         System.out.println("开始购票业务－－－－－－");
                         String result = dbService.useDb("select ticket");
                         System.out.println(result+"，准备通知客户端");
@@ -114,12 +105,8 @@ public class ConsumerService {
     public void init(){
         for(int i=0;i<2;i++){
             /*启动2个消费者*/
-            KafkaConsumer<String,String> consumer
-                    = new KafkaConsumer<String,String>(consumerConfigs());
-            executorService.submit(new ConsumerWorker(
-                    consumer,
-                    dbService,
-                    kafkaTemplate));
+            KafkaConsumer<String,String> consumer = new KafkaConsumer<>(consumerConfigs());
+            executorService.submit(new ConsumerWorker(consumer, dbService, kafkaTemplate));
             consumers.add(consumer);
         }
     }
@@ -130,6 +117,4 @@ public class ConsumerService {
             consumer.close();
         }
     }
-
-
 }

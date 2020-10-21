@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
  * 类说明：
  */
 @Configuration
@@ -59,20 +58,19 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public MyListener listener() {
-        return new MyListener();
-    }
-
-    @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>>
-    kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory
-                = new ConcurrentKafkaListenerContainerFactory<>();
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(concurrency);
         factory.getContainerProperties().setPollTimeout(1500);
         return factory;
     }
+
+    @Bean
+    public MyListener listener() {
+        return new MyListener();
+    }
+
 
     //自行确认
     public Map<String, Object> consumerConfigsAck() {
@@ -89,20 +87,18 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(consumerConfigsAck());
     }
 
-    @Bean("listenerAck")
-    public MyListenerAck listenerAck() {
-        return new MyListenerAck();
-    }
-
     @Bean("factoryAck")
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>>
-    kafkaListenerContainerFactoryAck() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory
-                = new ConcurrentKafkaListenerContainerFactory<>();
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactoryAck() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactoryAck());
         factory.setConcurrency(concurrency);
         factory.getContainerProperties().setPollTimeout(1500);
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
         return factory;
+    }
+
+    @Bean("listenerAck")
+    public MyListenerAck listenerAck() {
+        return new MyListenerAck();
     }
 }

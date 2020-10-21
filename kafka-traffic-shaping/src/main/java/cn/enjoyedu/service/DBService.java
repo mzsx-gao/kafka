@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 
 /**
-
  * 类说明：模拟数据库服务
  */
 @Component

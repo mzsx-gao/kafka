@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
  * 类说明：
  */
 @Configuration
@@ -54,8 +53,7 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
-        KafkaTemplate kafkaTemplate
-                = new KafkaTemplate<String, String>(producerFactory()) ;
+        KafkaTemplate kafkaTemplate = new KafkaTemplate<>(producerFactory());
         kafkaTemplate.setProducerListener(sendInfo);
         return kafkaTemplate;
     }

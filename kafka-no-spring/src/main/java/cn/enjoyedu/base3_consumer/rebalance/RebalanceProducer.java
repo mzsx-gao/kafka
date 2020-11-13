@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 类说明：多线程下使用生产者
+ * 类说明：分区再均衡实战,先将主题设置为3个分区
  */
 public class RebalanceProducer {
 

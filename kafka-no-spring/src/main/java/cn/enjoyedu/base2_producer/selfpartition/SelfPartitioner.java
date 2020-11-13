@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
-
  * 类说明：自定义分区器，以value值进行分区
  */
 public class SelfPartitioner implements Partitioner {
+
     public int partition(String topic, Object key, byte[] keyBytes,
                          Object value, byte[] valueBytes, Cluster cluster) {
         //拿到
@@ -19,7 +19,7 @@ public class SelfPartitioner implements Partitioner {
         // 分区数
         int num = partitionInfos.size();
         // 根据value与分区数求余的方式得到分区ID
-        int parId = ((String)value).hashCode()%num;
+        int parId = value.hashCode() % num;
         return parId;
     }
 

@@ -23,7 +23,7 @@ public class HelloKafkaConsumer {
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         //群组并非完全必须
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG,"test1");
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG,"consumer1");
         KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
         try {
             //消费者订阅主题（可以多个）

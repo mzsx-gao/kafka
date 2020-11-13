@@ -27,7 +27,7 @@ public class GroupBConsumer2 {
                 StringDeserializer.class,
                 StringDeserializer.class);
         /*消息消费者*/
-        consumer = new KafkaConsumer<String, String>(properties);
+        consumer = new KafkaConsumer<>(properties);
 
         try {
             //test subscribe("test.*")

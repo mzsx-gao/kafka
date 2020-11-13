@@ -22,8 +22,7 @@ public class KafkaAsynProducer {
         ProducerRecord<String, String> record;
         try {
             record = new ProducerRecord<>(BusiConst.HELLO_TOPIC, "teacher14", "deer");
-            producer.send(record, new Callback() {
-                public void onCompletion(RecordMetadata metadata, Exception exception) {
+            producer.send(record, (RecordMetadata metadata, Exception exception)-> {
                     if (null != exception) {
                         exception.printStackTrace();
                     }
@@ -31,11 +30,9 @@ public class KafkaAsynProducer {
                         System.out.println("offset:" + metadata.offset() + "-" + "partition:" + metadata.partition());
                     }
                 }
-            });
+            );
         } finally {
             producer.close();
         }
     }
-
-
 }

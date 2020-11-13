@@ -9,8 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 /**
-
- * 类说明：
+ * 类说明：主题"consumer-group-test"建立两个分区
  */
 public class TestGroupProducer {
 
@@ -38,8 +37,4 @@ public class TestGroupProducer {
             producer.close();
         }
     }
-
-
-
-
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HandlerRebalance implements ConsumerRebalanceListener {
 
     public final static ConcurrentHashMap<TopicPartition, Long> partitionOffsetMap = new ConcurrentHashMap<>();
+
     private final Map<TopicPartition, OffsetAndMetadata> currOffsets;
     private final KafkaConsumer<String, String> consumer;
 
@@ -31,7 +32,7 @@ public class HandlerRebalance implements ConsumerRebalanceListener {
                 ",当前消费偏移量currOffsets为:" + currOffsets);
         if (currOffsets.size() > 0) {
             for (TopicPartition topicPartition : partitions) {
-//                System.out.println(id + "保存分区偏移量：分区->" + topicPartition + "偏移量->" + currOffsets.get(topicPartition).offset());
+                System.out.println(id + "保存分区偏移量：分区->" + topicPartition + "偏移量->" + currOffsets.get(topicPartition).offset());
                 partitionOffsetMap.put(topicPartition, currOffsets.get(topicPartition).offset());
             }
             consumer.commitSync(currOffsets);

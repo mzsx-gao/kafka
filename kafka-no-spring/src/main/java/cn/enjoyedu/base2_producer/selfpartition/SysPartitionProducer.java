@@ -11,7 +11,6 @@ import java.util.Properties;
 import java.util.concurrent.Future;
 
 /**
-
  * 类说明：可以和KafkaFutureProducer比较分区结果
  */
 public class SysPartitionProducer {
@@ -20,15 +19,13 @@ public class SysPartitionProducer {
 
     public static void main(String[] args) {
         /*消息生产者*/
-        Properties properties
-                = KafkaConst.producerConfig(StringSerializer.class,
-                StringSerializer.class);
-        producer = new KafkaProducer<String, String>(properties);
+        Properties properties = KafkaConst.producerConfig(StringSerializer.class, StringSerializer.class);
+        producer = new KafkaProducer<>(properties);
         try {
             /*待发送的消息实例*/
             ProducerRecord<String,String> record;
             try {
-                record = new ProducerRecord<String,String>(
+                record = new ProducerRecord<>(
                         BusiConst.SELF_PARTITION_TOPIC,"teacher01",
                         "mark");
                 Future<RecordMetadata> future = producer.send(record);

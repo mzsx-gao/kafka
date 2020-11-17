@@ -24,8 +24,6 @@ public class TestKafka {
 
     /**
      * 并发模拟
-     *
-     * @throws Exception
      */
     @Test
     public void testKafkaMq() throws InterruptedException {
@@ -37,15 +35,8 @@ public class TestKafka {
         Thread.currentThread().sleep(60000);
     }
 
-//	@Test
-//	public void consumer() throws InterruptedException {
-//		Thread.currentThread().sleep(60000);
-//	}
-
     /**
      * 内部类继承线程接口，用于模拟买票请求
-     *
-     * @throws Exception
      */
     public class UserRequst implements Runnable {
         private int id;

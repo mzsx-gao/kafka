@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 
 /**
-
  * 类说明：
  */
 public class MyListener {

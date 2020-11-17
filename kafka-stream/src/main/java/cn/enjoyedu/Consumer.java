@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Properties;
 
 /**
-
  * 类说明：
  */
 public class Consumer {
@@ -42,15 +41,9 @@ public class Consumer {
                 }
                 //提交偏移量
             }
-
             //通过另外一个线程 consumer. wakeup()
         } finally {
             consumer.close();
         }
-
     }
-
-
-
-
 }

@@ -5,7 +5,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * 类说明：
+ * 发送消息
  */
 @Component
 public class KafkaSender {

@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
- * 类说明：
+ * 生产者配置
  */
 @Configuration
 @EnableKafka

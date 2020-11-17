@@ -8,8 +8,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.CountDownLatch;
 
-@SpringBootTest(classes = KafkaTrafficShapingClient.class)
-@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest(classes = KafkaTrafficShapingClient.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class TestInvokeRemote {
 
     RestTemplate restTemplate = new RestTemplate();
@@ -20,7 +20,7 @@ public class TestInvokeRemote {
 
     private static CountDownLatch cdl = new CountDownLatch(num);
 
-    @Test
+//    @Test
     public void testInvokeRemote() throws InterruptedException {
         //模拟高并发
         for(int i = 0; i <num; i++){

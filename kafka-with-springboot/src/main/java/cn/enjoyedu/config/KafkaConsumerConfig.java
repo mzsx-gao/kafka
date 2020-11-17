@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 类说明：
+ * 消费者配置
  */
 @Configuration
 @EnableKafka
@@ -52,11 +52,9 @@ public class KafkaConsumerConfig {
         propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
         return propsMap;
     }
-
     public ConsumerFactory<String, String> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
-
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
@@ -65,7 +63,6 @@ public class KafkaConsumerConfig {
         factory.getContainerProperties().setPollTimeout(1500);
         return factory;
     }
-
     @Bean
     public MyListener listener() {
         return new MyListener();

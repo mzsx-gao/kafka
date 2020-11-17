@@ -1,0 +1,3 @@
+测 试 方 式 ， 启 动 项 目 后 ， 在 浏 览 器 的 地 址 栏 中 ：
+http://localhost:8090/kafka/send?key=hello &value=world
+http://localhost:8090/kafka/sendAck?key=manualAck&value=true

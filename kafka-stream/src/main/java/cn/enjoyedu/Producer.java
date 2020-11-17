@@ -7,8 +7,6 @@ import java.util.Properties;
 import java.util.Random;
 
 /**
- *  需要往期视频的同学加QQ：2070155495（七七老师）
- *  需要咨询VIP课程的同学加QQ：1399484076（芊芊老师）
  * 交易系统（生产者类)
  */
 public class Producer {
@@ -60,8 +58,4 @@ public class Producer {
             producer.close();
         }
     }
-
-
-
-
 }

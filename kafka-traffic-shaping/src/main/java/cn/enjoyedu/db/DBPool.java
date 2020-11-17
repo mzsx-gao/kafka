@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.util.LinkedList;
 
 /**
-
  * 类说明：数据库连接池简单实现，线程安全，限定了连接池为2个大小
  */
 @Component

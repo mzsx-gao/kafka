@@ -7,7 +7,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 
 /**
- * 类说明：
+ * 手动确认
  */
 public class MyListenerAck {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());

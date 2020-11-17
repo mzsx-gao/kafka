@@ -6,7 +6,6 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
-
  * 类说明：数据库连接的实现
  */
 public class SqlConnectImpl implements Connection{

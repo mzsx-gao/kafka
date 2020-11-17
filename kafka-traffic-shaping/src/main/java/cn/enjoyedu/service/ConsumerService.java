@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -45,7 +46,6 @@ public class ConsumerService {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static ExecutorService executorService = new ThreadPoolExecutor(2,2, 60,TimeUnit.SECONDS,new SynchronousQueue<>());
     private static List<KafkaConsumer> consumers = new ArrayList<>();
 
@@ -83,15 +83,14 @@ public class ConsumerService {
             final String id = Thread.currentThread().getId() +"-"+System.identityHashCode(consumer);
             try {
                 while(true){
-                    ConsumerRecords<String, String> records = consumer.poll(100);
+                    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                     for(ConsumerRecord<String, String> record:records){
                         System.out.println(id+"|"+String.format("主题：%s，分区：%d，偏移量：%d，" + "key：%s，value：%s",
                                 record.topic(),record.partition(), record.offset(),record.key(),record.value()));
                         System.out.println("开始购票业务－－－－－－");
                         String result = dbService.useDb("select ticket");
                         System.out.println(result+"，准备通知客户端");
-                        /*主题为10个分区大小，可以更大，因为客户端那边没有削峰的需要，
-                        如果需要，一样处理即可*/
+                        //主题为10个分区大小，可以更大，因为客户端那边没有削峰的需要，如果需要，一样处理即可
                         kafkaTemplate.send("traffic-shaping-result",result);
                     }
                 }
@@ -104,7 +103,7 @@ public class ConsumerService {
     @PostConstruct
     public void init(){
         for(int i=0;i<2;i++){
-            /*启动2个消费者*/
+            //启动2个消费者
             KafkaConsumer<String,String> consumer = new KafkaConsumer<>(consumerConfigs());
             executorService.submit(new ConsumerWorker(consumer, dbService, kafkaTemplate));
             consumers.add(consumer);

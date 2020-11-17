@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
-
- * 类说明：
+ * kafka示例
  */
 @RestController
 @RequestMapping("/kafka")
@@ -19,6 +18,7 @@ public class KafkaController {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
+    //自动确认
     @RequestMapping(value = "/send")
     public String sendKafka(@RequestParam(required = false) String key,
                             @RequestParam(required = false) String value) {
@@ -32,6 +32,7 @@ public class KafkaController {
         }
     }
 
+    //手动确认
     @RequestMapping(value = "/sendAck")
     public String sendKafkaAck(@RequestParam(required = false) String key,
                             @RequestParam(required = false) String value) {

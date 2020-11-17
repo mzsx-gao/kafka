@@ -1,8 +1,6 @@
 package cn.enjoyedu;
 
-import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -16,11 +14,6 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import java.util.Arrays;
 import java.util.Properties;
 
-/**
- * @author 【享学课堂】 King老师
- * 需要往期视频的同学加QQ：2068425757（肉兰老师）
- * 需要咨询VIP课程的同学加QQ：1011843464 （依娜老师）
- */
 public class StreamDeal {
     public static void main(String[] args) throws  Exception {
         // 流处理三个属性必须指定(broker地址清单、key和value的序列化器)
@@ -50,6 +43,5 @@ public class StreamDeal {
         Thread.sleep(5000L); //休眠的时间
         builder.build();
         //将Topic中的流中的数据小写，同时，转换成数组，最后变成List
-
     }
 }

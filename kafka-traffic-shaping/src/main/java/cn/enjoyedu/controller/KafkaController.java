@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
-
  * 类说明：
  */
 @RestController
 public class KafkaController {
+
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private DBService dbService;

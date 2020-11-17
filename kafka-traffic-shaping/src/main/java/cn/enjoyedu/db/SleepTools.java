@@ -3,7 +3,6 @@ package cn.enjoyedu.db;
 import java.util.concurrent.TimeUnit;
 
 /**
-
  * 类说明：模拟数据库服务
  */
 public class SleepTools {

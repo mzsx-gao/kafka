@@ -28,7 +28,7 @@ public class ConsumerWorker implements Runnable {
         this.consumer = new KafkaConsumer<>(properties);
         // 偏移量
         this.currOffsets = new HashMap<>();
-        // 消费者订阅是加入再均衡监听器(HandlerRebalance)
+        // 消费者订阅时加入再均衡监听器(HandlerRebalance)
         consumer.subscribe(Collections.singletonList(BusiConst.REBALANCE_TOPIC), new HandlerRebalance(currOffsets, consumer));
     }
 

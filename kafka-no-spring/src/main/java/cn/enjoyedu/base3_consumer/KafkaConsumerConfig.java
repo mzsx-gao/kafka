@@ -12,7 +12,7 @@ import java.util.Properties;
 
  * 类说明：
  */
-public class ConfigKafkaConsumer {
+public class KafkaConsumerConfig {
 
     public static void main(String[] args) {
         // 消费者三个属性必须指定(broker地址清单、key和value的反序列化器)
@@ -32,7 +32,7 @@ public class ConfigKafkaConsumer {
 
 
 
-        KafkaConsumer<String,String> consumer = new KafkaConsumer<String, String>(properties);
+        KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
         try {
             // 消费者订阅主题（可以多个）
             consumer.subscribe(Collections.singletonList(BusiConst.HELLO_TOPIC));
